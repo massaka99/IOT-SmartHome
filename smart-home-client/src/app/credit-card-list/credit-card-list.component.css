@@ -1,0 +1,163 @@
+html, body {
+    height: 100%; 
+    margin: 0; 
+}
+
+.container { 
+    display: flex;
+    flex-direction: column; 
+}
+
+.credit-container {
+    padding: 2px;
+    font-size: large;
+    font-family: Arial, sans-serif;
+    flex: 0 0 auto; 
+}
+
+.background-container { 
+    padding: 20px;
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-size: contain; 
+    height: 100px; 
+    flex-shrink: 0; 
+}
+
+h2 {
+    color: #003087;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.filter-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.filter-section input {
+    padding: 10px;
+    width: 200px;
+    font-size: medium;
+    margin-right: 10px;
+    border: 1px solid #003087;
+    border-radius: 5px;
+}
+
+.filter-section button {
+    padding: 10px;
+    background-color: #0070ba;
+    font-size: larger;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.card-list {
+    list-style-type: none;  
+    padding: 0; 
+    margin: 10px;
+}
+
+.card-list li {
+    padding: 10px;
+    border: 1px solid #003087;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;  
+    transition: background-color 0.3s;
+    background-color: rgb(255, 255, 255);
+}
+
+.card-list li:hover {
+    background-color: #818b94;  
+}
+
+.details-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #0070ba;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.remove-btn {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.remove-btn:hover {
+    background-color: darkred;
+}
+
+.transactions-section {
+    margin-top: 20px;
+}
+
+.scrollable-transactions {
+    max-height: 200px; 
+    overflow-y: auto;
+    border-top: 1px solid #ddd; 
+    padding-top: 10px; 
+}
+
+.transaction-list {
+    list-style-type: none; 
+    padding: 0;
+}
+
+.transaction-list li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}

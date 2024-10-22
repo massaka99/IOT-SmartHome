@@ -1,0 +1,18 @@
+<nav>
+  <ul>
+    <li>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    </li>
+    <li>
+      <a routerLink="/add-credit-card" routerLinkActive="active">Add Credit</a>
+    </li>
+    <li>
+      <a routerLink="/credit-card-list" routerLinkActive="active">Credit Card List</a>
+    </li>
+    <li>
+      <a routerLink="/transactions" routerLinkActive="active">Transactions Screen</a>
+    </li>
+  </ul>
+</nav>
+
+<router-outlet></router-outlet>

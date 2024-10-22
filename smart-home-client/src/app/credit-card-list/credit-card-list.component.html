@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="credit-container">
+    <h2>Credit Card List</h2>
+
+    <div class="filter-section">
+      <input type="text" placeholder="Filter by cardholder name..." [(ngModel)]="filterText" />
+      <button (click)="filterCards()">Load</button>
+    </div>
+
+    <ul class="card-list">
+      <li *ngFor="let card of filteredCards" (click)="onCardClick(card.card_number)">
+        <strong>Cardholder:</strong> {{ card.cardholder_name }} <br />
+        <strong>Issuer:</strong> {{ card.issuer }} <br />
+        <strong>Card Number:</strong> {{ card.card_number }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="background-container"></div>
+</div>
+
+
+<div *ngIf="showModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" (click)="closeModal()">&times;</span>
+    <h2>Credit Card Details</h2>
+    
+    
+    <p><strong>Card Number:</strong> {{ creditCardDetails.card_number }}</p>
+    <p><strong>Cardholder Name:</strong> {{ creditCardDetails.cardholder_name }}</p>
+    <p><strong>Issuer:</strong> {{ creditCardDetails.issuer }}</p>
+    <p><strong>Expiration Date:</strong> {{ creditCardDetails.expiration_date_month }}/{{ creditCardDetails.expiration_date_year }}</p>
+    <p><strong>CSC Code:</strong> {{ creditCardDetails.csc_code }}</p>
+
+    <button class="remove-btn" (click)="removeCard()">Remove Card</button>
+
+   
+<div class="transactions-section">
+  <h3>Transactions</h3>
+
+
+  <div *ngIf="filteredTransactions.length > 0" class="scrollable-transactions">
+    <ul class="transaction-list">
+      <li *ngFor="let transaction of filteredTransactions">
+        {{ transaction.date | date:'MM/dd/yyyy, h:mm a' }} - {{ transaction.amount | number: '1.2-2' }} {{ transaction.currency }}
+      </li>
+    </ul>
+  </div>
+
+
+  <div *ngIf="filteredTransactions.length === 0">
+    <p>No transactions found for this card.</p>
+  </div>
+</div>
+
+  </div>
+</div>

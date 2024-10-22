@@ -1,0 +1,87 @@
+.container {
+    max-width: 600px;
+    margin: 50px auto; 
+    padding: 10px;
+    background-color: #ffffff; 
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #003087; 
+    font-family: Arial, sans-serif;
+  }
+  
+  h2 {
+    color: #003087;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .form-group {
+    margin-bottom: 0px;
+  }
+  
+  label {
+    color: #000000;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 1px;
+  }
+  
+  input[type="text"], 
+  input[type="password"], 
+  input[type="email"] {
+    width: 98%;
+    padding: 3px;
+    border: 1px solid #c1c1c1;
+    border-radius: 1px;
+    font-size: 14px;
+    background-color: #d3d3d3; 
+    color: #000000; 
+  }
+  
+  input[type="text"]:focus, 
+  input[type="password"]:focus, 
+  input[type="email"]:focus {
+    border-color: #009cde; 
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 156, 222, 0.5);
+  }
+  
+  .error {
+    color: #d9534f;
+    font-size: 12px;
+  }
+  
+  small {
+    color: #d9534f;
+  }
+  
+  button.addButton {
+    background-color: #009cde; 
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+  }
+  
+  button.addButton:hover {
+    background-color: #005ea6;
+  }
+  
+  button.addButton:disabled {
+    background-color: #3d3d3d;
+    cursor: not-allowed;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
