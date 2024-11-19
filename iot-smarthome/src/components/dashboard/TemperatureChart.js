@@ -91,7 +91,7 @@ const TemperatureChart = ({ data, title, timeRange }) => {
             x: {
               title: {
                 display: true,
-                text: timeRange > 86400000 ? 'Date/Time' : 'Time'
+                text: 'Time'
               }
             }
           }

@@ -1,13 +1,15 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box } from '@mui/material';
+import Navigation from './Navigation';
 
 const Header = () => {
   return (
     <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6">
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant="h6" component="div">
           Smart Home Monitor
         </Typography>
+        <Navigation />
       </Toolbar>
     </AppBar>
   );

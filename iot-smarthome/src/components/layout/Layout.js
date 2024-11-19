@@ -1,14 +1,15 @@
 import React from 'react';
+import { Box, Container } from '@mui/material';
 import Header from './Header';
 
 const Layout = ({ children }) => {
   return (
-    <div className="layout">
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
-      <main className="main-content">
+      <Container component="main" sx={{ flexGrow: 1, py: 4 }}>
         {children}
-      </main>
-    </div>
+      </Container>
+    </Box>
   );
 };
 

@@ -8,6 +8,7 @@ import TemperatureChart from '../components/dashboard/TemperatureChart';
 import HumidityChart from '../components/dashboard/HumidityChart';
 import TimeRangeSelector from '../components/dashboard/TimeRangeSelector';
 import DataStats from '../components/dashboard/DataStats';
+import MotionDetector from '../components/dashboard/MotionDetector';
 
 const Dashboard = () => {
   const insideTemp = useSensorData(COLLECTIONS.INSIDE_TEMP);
@@ -80,29 +81,6 @@ const Dashboard = () => {
             />
           </Grid>
         </Grid>
-      </Box>
-
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" gutterBottom>
-          Motion Detection
-        </Typography>
-        <Paper
-          sx={{
-            p: 3,
-            backgroundColor: isMotionDetected ? '#ffebee' : '#e8f5e9',
-            transition: 'background-color 0.3s ease'
-          }}
-        >
-          <Typography variant="h6" component="div">
-            Status: {motionData.loading ? 'Loading...' : 
-              (isMotionDetected ? 'Motion Detected!' : 'No Motion')}
-          </Typography>
-          {motionData.latestReading?.timestamp && (
-            <Typography variant="body2" color="text.secondary">
-              Last updated: {new Date(motionData.latestReading.timestamp).toLocaleString()}
-            </Typography>
-          )}
-        </Paper>
       </Box>
 
       <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-end' }}>

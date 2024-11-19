@@ -7,28 +7,22 @@ export const useSensorData = (collectionName) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    try {
-      const unsubscribe = subscribeSensorData(
-        collectionName,
-        (newData) => {
-          console.log(`New data from ${collectionName}:`, newData);
-          setData(newData);
-          setLoading(false);
-        },
-        (error) => {
-          console.error(`Error from ${collectionName}:`, error);
-          setError(error);
-          setLoading(false);
-        }
-      );
+    const unsubscribe = subscribeSensorData(
+      collectionName,
+      (newData) => {
+        setData(newData);
+        setLoading(false);
+      },
+      (err) => {
+        setError(err);
+        setLoading(false);
+      }
+    );
 
-      return () => unsubscribe();
-    } catch (err) {
-      setError(err);
-      setLoading(false);
-    }
+    return () => unsubscribe();
   }, [collectionName]);
 
-  return { data, latestReading: data[0] || null, loading, error };
+  const latestReading = data[0] || null;
+
+  return { data, latestReading, loading, error };
 };
