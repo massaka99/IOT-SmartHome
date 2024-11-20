@@ -8,18 +8,14 @@ import TemperatureChart from '../components/dashboard/TemperatureChart';
 import HumidityChart from '../components/dashboard/HumidityChart';
 import TimeRangeSelector from '../components/dashboard/TimeRangeSelector';
 import DataStats from '../components/dashboard/DataStats';
-import MotionDetector from '../components/dashboard/MotionDetector';
 
 const Dashboard = () => {
   const insideTemp = useSensorData(COLLECTIONS.INSIDE_TEMP);
   const insideHumidity = useSensorData(COLLECTIONS.INSIDE_HUMIDITY);
   const outsideTemp = useSensorData(COLLECTIONS.OUTSIDE_TEMP);
   const outsideHumidity = useSensorData(COLLECTIONS.OUTSIDE_HUMIDITY);
-  const motionData = useSensorData(COLLECTIONS.OUTSIDE_MOTION);
 
-  const isMotionDetected = motionData.latestReading?.status === "Motion detected";
-
-  const [timeRange, setTimeRange] = useState(3600000); // 1 hour default
+  const [timeRange, setTimeRange] = useState(3600000);
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
