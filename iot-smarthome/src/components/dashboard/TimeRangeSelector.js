@@ -2,22 +2,22 @@ import React from 'react';
 import { ButtonGroup, Button } from '@mui/material';
 
 const TimeRangeSelector = ({ selectedRange, onRangeChange }) => {
-  const ranges = [
+  const timeRanges = [
     { label: '1H', value: 3600000 },
+    { label: '6H', value: 21600000 },
     { label: '24H', value: 86400000 },
     { label: '7D', value: 604800000 },
-    { label: '30D', value: 2592000000 }
   ];
 
   return (
-    <ButtonGroup size="small" aria-label="time range selector">
-      {ranges.map(range => (
+    <ButtonGroup variant="outlined" size="small">
+      {timeRanges.map(({ label, value }) => (
         <Button
-          key={range.value}
-          variant={selectedRange === range.value ? 'contained' : 'outlined'}
-          onClick={() => onRangeChange(range.value)}
+          key={label}
+          onClick={() => onRangeChange(value)}
+          variant={selectedRange === value ? 'contained' : 'outlined'}
         >
-          {range.label}
+          {label}
         </Button>
       ))}
     </ButtonGroup>

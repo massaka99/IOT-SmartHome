@@ -1,102 +1,111 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Line } from 'react-chartjs-2';
-import { Box, IconButton, Tooltip } from '@mui/material';
-import DownloadIcon from '@mui/icons-material/Download';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip as ChartTooltip,
-  Legend,
-  Filler
-} from 'chart.js';
+import { Box, IconButton, Tooltip, CircularProgress } from '@mui/material';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { format } from 'date-fns';
+import './ChartConfig';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  ChartTooltip,
-  Legend,
-  Filler
-);
+const TemperatureChart = ({ data, title, timeRange, loading }) => {
+  const chartRef = useRef(null);
 
-const TemperatureChart = ({ data, title, timeRange }) => {
-  const chartRef = React.useRef();
+  const handleResetZoom = () => {
+    if (chartRef.current) {
+      chartRef.current.resetZoom();
+    }
+  };
 
   const filteredData = React.useMemo(() => {
     const now = Date.now();
-    return data.filter(d => (now - new Date(d.timestamp).getTime()) <= timeRange);
+    return data?.filter(d => (now - new Date(d.timestamp).getTime()) <= timeRange) || [];
   }, [data, timeRange]);
 
   const chartData = {
-    labels: filteredData.map(d => new Date(d.timestamp).toLocaleTimeString()),
     datasets: [{
-      label: 'Temperature °C',
-      data: filteredData.map(d => d.value),
-      borderColor: '#2196f3',
-      backgroundColor: 'rgba(33, 150, 243, 0.1)',
-      fill: true,
-      tension: 0.4
+      label: title,
+      data: filteredData.map(d => ({
+        x: new Date(d.timestamp),
+        y: d.value
+      })),
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
     }]
   };
 
-  const handleExport = () => {
-    const base64Image = chartRef.current.toBase64Image();
-    const link = document.createElement('a');
-    link.download = `temperature-data-${new Date().toISOString()}.png`;
-    link.href = base64Image;
-    link.click();
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: title,
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.parsed.y}°C`,
+          title: (tooltipItems) => {
+            return format(tooltipItems[0].parsed.x, 'PPpp');
+          }
+        }
+      },
+      zoom: {
+        limits: {
+          y: { min: 0, max: 50 }
+        },
+        zoom: {
+          wheel: { enabled: true },
+          pinch: { enabled: true },
+          mode: 'xy',
+        },
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        }
+      }
+    },
+    scales: {
+      x: {
+        type: 'time',
+        time: {
+          unit: timeRange <= 86400000 ? 'hour' : 'day',
+          displayFormats: {
+            hour: 'HH:mm',
+            day: 'MMM d'
+          }
+        },
+        title: {
+          display: true,
+          text: 'Time'
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Temperature (°C)'
+        }
+      }
+    }
   };
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ position: 'relative' }}>
       <Box sx={{ position: 'absolute', right: 0, top: 0, zIndex: 1 }}>
-        <Tooltip title="Export as PNG">
-          <IconButton onClick={handleExport}>
-            <DownloadIcon />
+        <Tooltip title="Reset Zoom">
+          <IconButton onClick={handleResetZoom} size="small">
+            <RestartAltIcon />
           </IconButton>
         </Tooltip>
       </Box>
-      <Line
-        ref={chartRef}
-        data={chartData}
-        options={{
-          responsive: true,
-          animation: {
-            duration: 750,
-            easing: 'easeInOutQuart'
-          },
-          plugins: {
-            legend: {
-              position: 'top'
-            },
-            title: {
-              display: true,
-              text: title
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: false,
-              title: {
-                display: true,
-                text: 'Temperature (°C)'
-              }
-            },
-            x: {
-              title: {
-                display: true,
-                text: 'Time'
-              }
-            }
-          }
-        }}
-      />
+      <Line ref={chartRef} options={options} data={chartData} />
     </Box>
   );
 };

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Container, Typography, Box, Paper, Grid } from '@mui/material';
+import { 
+  Container, Typography, Box, Paper, Grid, 
+  ToggleButton, ToggleButtonGroup 
+} from '@mui/material';
 import TemperatureChart from '../components/dashboard/TemperatureChart';
 import HumidityChart from '../components/dashboard/HumidityChart';
 import TimeRangeSelector from '../components/dashboard/TimeRangeSelector';
@@ -8,79 +11,141 @@ import { useSensorData } from '../hooks/useSensorData';
 import { COLLECTIONS } from '../services/sensorService';
 
 const Graphs = () => {
-  const [timeRange, setTimeRange] = useState(3600000); // 1 hour default
+  const [timeRange, setTimeRange] = useState(3600000);
+  const [viewType, setViewType] = useState('temperature');
   const insideTemp = useSensorData(COLLECTIONS.INSIDE_TEMP);
   const outsideTemp = useSensorData(COLLECTIONS.OUTSIDE_TEMP);
   const insideHumidity = useSensorData(COLLECTIONS.INSIDE_HUMIDITY);
   const outsideHumidity = useSensorData(COLLECTIONS.OUTSIDE_HUMIDITY);
 
+  const handleViewChange = (event, newView) => {
+    if (newView !== null) {
+      setViewType(newView);
+    }
+  };
+
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Sensor Graphs
-      </Typography>
-
-      <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-end' }}>
-        <TimeRangeSelector
-          selectedRange={timeRange}
-          onRangeChange={setTimeRange}
-        />
-      </Box>
-
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" gutterBottom>
-          Temperature Trends
+    <Container 
+      maxWidth="lg" 
+      sx={{ 
+        height: 'calc(100vh - 64px)',
+        overflow: 'hidden',
+        pt: 4
+      }}
+    >
+      <Paper elevation={3} sx={{ 
+        p: 3, 
+        borderRadius: 2,
+        background: (theme) => theme.palette.mode === 'dark' 
+          ? 'linear-gradient(to bottom, rgba(30,30,30,0.9), rgba(20,20,20,0.95))'
+          : 'linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(250,250,250,0.95))',
+        backdropFilter: 'blur(8px)',
+      }}>
+        <Typography variant="h4" component="h1" gutterBottom align="center">
+          Sensor Graphs
         </Typography>
-        <Box sx={{ mb: 2 }}>
-          <DataStats data={insideTemp.data} unit="°C" />
+
+        <Box sx={{ 
+          mb: 3, 
+          display: 'flex', 
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 2 
+        }}>
+          <ToggleButtonGroup
+            value={viewType}
+            exclusive
+            onChange={handleViewChange}
+            aria-label="view type"
+            sx={{
+              '& .MuiToggleButton-root': {
+                px: 3,
+                py: 1,
+                borderRadius: '20px !important',
+                border: 'none',
+                mx: 0.5,
+                backgroundColor: (theme) => 
+                  theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                '&.Mui-selected': {
+                  backgroundColor: 'primary.main',
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: 'primary.dark',
+                  },
+                },
+              },
+            }}
+          >
+            <ToggleButton value="temperature" aria-label="temperature view">
+              Temperature
+            </ToggleButton>
+            <ToggleButton value="humidity" aria-label="humidity view">
+              Humidity
+            </ToggleButton>
+          </ToggleButtonGroup>
+          
+          <TimeRangeSelector
+            selectedRange={timeRange}
+            onRangeChange={setTimeRange}
+          />
         </Box>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <Paper sx={{ p: 3 }}>
-              <TemperatureChart 
-                data={insideTemp.data} 
-                title="Indoor Temperature History"
-                timeRange={timeRange}
-              />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Paper sx={{ p: 3 }}>
-              <TemperatureChart 
-                data={outsideTemp.data} 
-                title="Outdoor Temperature History"
-                timeRange={timeRange}
-              />
-            </Paper>
-          </Grid>
-        </Grid>
-      </Box>
 
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h5" gutterBottom>
-          Humidity Trends
-        </Typography>
+        {/* Charts section */}
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <Paper sx={{ p: 3 }}>
-              <HumidityChart 
-                data={insideHumidity.data} 
-                title="Indoor Humidity History"
-                timeRange={timeRange}
-              />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Paper sx={{ p: 3 }}>
-              <HumidityChart 
-                data={outsideHumidity.data} 
-                title="Outdoor Humidity History"
-                timeRange={timeRange}
-              />
-            </Paper>
-          </Grid>
+          {viewType === 'temperature' ? (
+            <>
+              <Grid item xs={12} md={6}>
+                <Paper sx={{ p: 2 }}>
+                  <DataStats data={insideTemp.data} unit="°C" />
+                  <TemperatureChart 
+                    data={insideTemp.data}
+                    title="Indoor Temperature"
+                    timeRange={timeRange}
+                    loading={insideTemp.loading}
+                  />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Paper sx={{ p: 2 }}>
+                  <DataStats data={outsideTemp.data} unit="°C" />
+                  <TemperatureChart 
+                    data={outsideTemp.data}
+                    title="Outdoor Temperature"
+                    timeRange={timeRange}
+                    loading={outsideTemp.loading}
+                  />
+                </Paper>
+              </Grid>
+            </>
+          ) : (
+            <>
+              <Grid item xs={12} md={6}>
+                <Paper sx={{ p: 2 }}>
+                  <DataStats data={insideHumidity.data} unit="%" />
+                  <HumidityChart 
+                    data={insideHumidity.data}
+                    title="Indoor Humidity"
+                    timeRange={timeRange}
+                    loading={insideHumidity.loading}
+                  />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Paper sx={{ p: 2 }}>
+                  <DataStats data={outsideHumidity.data} unit="%" />
+                  <HumidityChart 
+                    data={outsideHumidity.data}
+                    title="Outdoor Humidity"
+                    timeRange={timeRange}
+                    loading={outsideHumidity.loading}
+                  />
+                </Paper>
+              </Grid>
+            </>
+          )}
         </Grid>
-      </Box>
+      </Paper>
     </Container>
   );
 };

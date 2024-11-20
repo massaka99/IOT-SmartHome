@@ -1,28 +1,24 @@
 import React, { useContext } from 'react';
-import { Box, Button, Avatar, Typography } from '@mui/material';
+import { Box, Button, Avatar, Typography, IconButton } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import TimelineIcon from '@mui/icons-material/Timeline';
-import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { AuthContext } from '../../context/AuthContext';
+import { ColorModeContext } from '../../context/ThemeContext';
+import { useTheme } from '@mui/material/styles';
 import { auth } from '../../services/firebase';
 
 const Navigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useContext(AuthContext);
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
 
   const isActive = (path) => location.pathname === path;
-
-  const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      navigate('/login');
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
 
   return (
     <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
@@ -42,14 +38,9 @@ const Navigation = () => {
       >
         Graphs
       </Button>
-      <Button
-        startIcon={<SettingsIcon />}
-        onClick={() => navigate('/settings')}
-        color={isActive('/settings') ? 'primary' : 'inherit'}
-        variant={isActive('/settings') ? 'contained' : 'text'}
-      >
-        Settings
-      </Button>
+      <IconButton onClick={colorMode.toggleColorMode} color="inherit">
+        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+      </IconButton>
       {user && (
         <>
           <Avatar
@@ -62,7 +53,7 @@ const Navigation = () => {
           </Typography>
           <Button
             startIcon={<LogoutIcon />}
-            onClick={handleLogout}
+            onClick={() => auth.signOut()}
             color="inherit"
           >
             Logout
