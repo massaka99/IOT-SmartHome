@@ -10,6 +10,7 @@ import LoadingScreen from './components/common/LoadingScreen';
 import PrivateRoute from './components/auth/PrivateRoute';
 import { ThemeProviderWrapper } from './context/ThemeContext';
 
+
 const AppRoutes = () => {
   const { user, loading } = useContext(AuthContext);
 

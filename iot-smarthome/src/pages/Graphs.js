@@ -29,8 +29,10 @@ const Graphs = () => {
       maxWidth="lg" 
       sx={{ 
         height: 'calc(100vh - 64px)',
+        pt: 4,
         overflow: 'hidden',
-        pt: 4
+        display: 'flex',
+        flexDirection: 'column'
       }}
     >
       <Paper elevation={3} sx={{ 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, Typography, CircularProgress } from '@mui/material';
+import { Card, CardContent, Typography, CircularProgress, Tooltip } from '@mui/material';
 import ThermostatIcon from '@mui/icons-material/Thermostat';
 import OpacityIcon from '@mui/icons-material/Opacity';
 
@@ -37,9 +37,11 @@ const SensorCard = ({ title, value, unit, timestamp, loading, type }) => {
           <CircularProgress size={40} />
         ) : (
           <>
-            <Typography variant="h3" component="div" sx={{ mb: 1.5 }}>
-              {value !== null ? `${value}${unit}` : 'No data'}
-            </Typography>
+            <Tooltip title={`Last updated: ${new Date(timestamp).toLocaleString()}`}>
+              <Typography variant="h4" className="sensor-value">
+                {value}{unit}
+              </Typography>
+            </Tooltip>
             <Typography sx={{ fontSize: 14 }} color="text.secondary">
               Last updated: {timestamp ? new Date(timestamp).toLocaleTimeString() : 'Never'}
             </Typography>

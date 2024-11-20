@@ -18,8 +18,10 @@ const Dashboard = () => {
       maxWidth="lg" 
       sx={{ 
         height: 'calc(100vh - 64px)',
+        pt: 4,
         overflow: 'hidden',
-        pt: 4
+        display: 'flex',
+        flexDirection: 'column'
       }}
     >
       <Paper elevation={3} sx={{ 
@@ -48,7 +50,7 @@ const Dashboard = () => {
                 height: '100%',
                 background: (theme) => 
                   theme.palette.mode === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.1)' 
+                    ? 'rgba(0, 0, 0, 0.2)' 
                     : 'rgba(0, 0, 0, 0.02)',
                 borderRadius: 2
               }}
