@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { auth } from '../services/firebase';
-import { signInAnonymously } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export const AuthContext = createContext();
 
@@ -10,37 +10,23 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const initAuth = async () => {
-      try {
-        await signInAnonymously(auth);
-      } catch (error) {
-        console.error('Auth error:', error);
+    const unsubscribe = onAuthStateChanged(auth, 
+      (user) => {
+        setUser(user);
+        setLoading(false);
+      },
+      (error) => {
+        console.error('Auth state change error:', error);
         setError(error);
+        setLoading(false);
       }
-    };
-
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
-      setLoading(false);
-    }, (error) => {
-      console.error('Auth state change error:', error);
-      setError(error);
-      setLoading(false);
-    });
-
-    if (!auth.currentUser) {
-      initAuth();
-    }
+    );
 
     return unsubscribe;
   }, []);
 
-  if (error) {
-    return <div>Error initializing app: {error.message}</div>;
-  }
-
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, error }}>
       {!loading && children}
     </AuthContext.Provider>
   );

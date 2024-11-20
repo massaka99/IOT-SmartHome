@@ -1,23 +1,29 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD7eZB_8cMa15R3CFQ7KsHeZ75d89uq8zA",
-    authDomain: "smartmonitoringsystem-8e77c.firebaseapp.com",
-    projectId: "smartmonitoringsystem-8e77c",
-    storageBucket: "smartmonitoringsystem-8e77c.appspot.com",
-    messagingSenderId: "969773040166",
-    appId: "1:969773040166:web:e7490ce0a700447a571ce7",
-    measurementId: "G-LRQNV59Z76"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
+
+// Optional: Add custom parameters to the Google Auth Provider
+googleProvider.setCustomParameters({
+    prompt: 'select_account' // Forces account selection even when one account is available
+});
 
 auth.onAuthStateChanged((user) => {
     console.log('Auth State Changed:', user ? 'User is signed in' : 'No user');
 });
 
-export { firestore, auth };
+export { firestore, auth, googleProvider };
