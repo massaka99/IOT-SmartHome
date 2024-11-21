@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../services/firebase';
+import { isValidEmail, isValidPassword } from '../../utils/validation';
 
 const EmailSignUp = () => {
   const [email, setEmail] = useState('');
@@ -16,6 +17,16 @@ const EmailSignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if (!isValidEmail(email)) {
+        setError('Please enter a valid email address');
+        return;
+      }
+
+      if (!isValidPassword(password)) {
+        setError('Password must be at least 8 characters with 1 uppercase and 1 number');
+        return;
+      }
+
       await createUserWithEmailAndPassword(auth, email, password);
     } catch (error) {
       setError(error.message);

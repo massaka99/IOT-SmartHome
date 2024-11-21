@@ -9,6 +9,7 @@ import TimeRangeSelector from '../components/dashboard/TimeRangeSelector';
 import DataStats from '../components/dashboard/DataStats';
 import { useSensorData } from '../hooks/useSensorData';
 import { COLLECTIONS } from '../services/sensorService';
+import MotionChart from '../components/dashboard/MotionChart';
 
 const Graphs = () => {
   const [timeRange, setTimeRange] = useState(3600000);
@@ -17,6 +18,7 @@ const Graphs = () => {
   const outsideTemp = useSensorData(COLLECTIONS.OUTSIDE_TEMP);
   const insideHumidity = useSensorData(COLLECTIONS.INSIDE_HUMIDITY);
   const outsideHumidity = useSensorData(COLLECTIONS.OUTSIDE_HUMIDITY);
+  const motionData = useSensorData(COLLECTIONS.OUTSIDE_MOTION);
 
   const handleViewChange = (event, newView) => {
     if (newView !== null) {
@@ -27,13 +29,7 @@ const Graphs = () => {
   return (
     <Container 
       maxWidth="lg" 
-      sx={{ 
-        height: 'calc(100vh - 64px)',
-        pt: 4,
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column'
-      }}
+      className="graphs-container"
     >
       <Paper elevation={3} sx={{ 
         p: 3, 
@@ -85,6 +81,9 @@ const Graphs = () => {
             <ToggleButton value="humidity" aria-label="humidity view">
               Humidity
             </ToggleButton>
+            <ToggleButton value="motion" aria-label="motion view">
+              Motion
+            </ToggleButton>
           </ToggleButtonGroup>
           
           <TimeRangeSelector
@@ -120,7 +119,7 @@ const Graphs = () => {
                 </Paper>
               </Grid>
             </>
-          ) : (
+          ) : viewType === 'humidity' ? (
             <>
               <Grid item xs={12} md={6}>
                 <Paper sx={{ p: 2 }}>
@@ -145,6 +144,38 @@ const Graphs = () => {
                 </Paper>
               </Grid>
             </>
+          ) : viewType === 'motion' ? (
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2 }}>
+                <DataStats 
+                  data={motionData.data} 
+                  unit=""
+                  isMotion={true}
+                />
+                <MotionChart 
+                  data={motionData.data}
+                  title="Motion Detection Events"
+                  timeRange={timeRange}
+                  loading={motionData.loading}
+                />
+              </Paper>
+            </Grid>
+          ) : (
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2 }}>
+                <DataStats 
+                  data={motionData.data} 
+                  unit="" 
+                  calculateMotion={true}
+                />
+                <MotionChart 
+                  data={motionData.data}
+                  title="Motion Detection Events"
+                  timeRange={timeRange}
+                  loading={motionData.loading}
+                />
+              </Paper>
+            </Grid>
           )}
         </Grid>
       </Paper>

@@ -1,28 +1,58 @@
 import { useState, useEffect } from 'react';
-import { subscribeSensorData } from '../services/sensorService';
+import { onSnapshot, query, orderBy } from 'firebase/firestore';
 
-export const useSensorData = (collectionName) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export const useSensorData = (collectionRef) => {
+  const [data, setData] = useState({
+    data: [],
+    latestReading: null,
+    loading: true,
+    error: null
+  });
 
   useEffect(() => {
-    const unsubscribe = subscribeSensorData(
-      collectionName,
-      (newData) => {
-        setData(newData);
-        setLoading(false);
-      },
-      (err) => {
-        setError(err);
-        setLoading(false);
-      }
-    );
+    if (!collectionRef) {
+      console.error('Collection reference is undefined');
+      return;
+    }
 
-    return () => unsubscribe();
-  }, [collectionName]);
+    console.log('Setting up snapshot listener for:', collectionRef.path);
+    
+    try {
+      const q = query(
+        collectionRef,
+        orderBy('timestamp', 'desc')
+      );
 
-  const latestReading = data[0] || null;
+      const unsubscribe = onSnapshot(q, 
+        (snapshot) => {
+          if (!snapshot.empty) {
+            const docs = snapshot.docs.map(doc => {
+              const data = doc.data();
+              const timestamp = data.timestamp?.toDate?.() || new Date(data.timestamp);
+              return {
+                id: doc.id,
+                timestamp,
+                value: typeof data.value === 'string' ? parseFloat(data.value) : data.value,
+                status: data.status || null
+              };
+            });
 
-  return { data, latestReading, loading, error };
+            setData({
+              data: docs,
+              latestReading: docs[0],
+              loading: false,
+              error: null
+            });
+          }
+        }
+      );
+
+      return () => unsubscribe();
+    } catch (error) {
+      console.error('Error setting up snapshot:', error);
+      setData(prev => ({ ...prev, error, loading: false }));
+    }
+  }, [collectionRef]);
+
+  return data;
 };

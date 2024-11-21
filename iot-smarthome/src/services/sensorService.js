@@ -1,12 +1,12 @@
 import { collection, query, orderBy, limit, onSnapshot, Timestamp } from 'firebase/firestore';
 import { firestore } from './firebase';
 
-const COLLECTIONS = {
-  INSIDE_TEMP: 'insideTemperatureData',
-  INSIDE_HUMIDITY: 'insideHumidityData',
-  OUTSIDE_TEMP: 'outsideTemperatureData',
-  OUTSIDE_HUMIDITY: 'outsideHumidityData',
-  OUTSIDE_MOTION: 'outsideMotionData'
+export const COLLECTIONS = {
+  INSIDE_TEMP: collection(firestore, 'insideTemperatureData'),
+  INSIDE_HUMIDITY: collection(firestore, 'insideHumidityData'),
+  OUTSIDE_TEMP: collection(firestore, 'outsideTemperatureData'),
+  OUTSIDE_HUMIDITY: collection(firestore, 'outsideHumidityData'),
+  OUTSIDE_MOTION: collection(firestore, 'outsideMotionData')
 };
 
 export const subscribeSensorData = (collectionName, callback, errorCallback) => {
@@ -29,7 +29,6 @@ export const subscribeSensorData = (collectionName, callback, errorCallback) => 
             value = parseFloat(value.replace(/[°C%]/g, ''));
           }
           
-          // Handle different timestamp formats
           let timestamp;
           if (rawData.timestamp instanceof Timestamp) {
             timestamp = rawData.timestamp.toDate();
@@ -61,6 +60,4 @@ export const subscribeSensorData = (collectionName, callback, errorCallback) => 
     errorCallback?.(error);
     return () => {};
   }
-};
-
-export { COLLECTIONS }; 
+}; 

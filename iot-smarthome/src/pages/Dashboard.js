@@ -13,16 +13,12 @@ const Dashboard = () => {
   const outsideHumidity = useSensorData(COLLECTIONS.OUTSIDE_HUMIDITY);
   const motionData = useSensorData(COLLECTIONS.OUTSIDE_MOTION);
 
+  console.log('Motion Data:', motionData);
+
   return (
     <Container 
-      maxWidth="lg" 
-      sx={{ 
-        height: 'calc(100vh - 64px)',
-        pt: 4,
-        overflow: 'hidden',
-        display: 'flex',
-        flexDirection: 'column'
-      }}
+      maxWidth="lg"   
+      className="dashboard-container"
     >
       <Paper elevation={3} sx={{ 
         p: 2, 
@@ -41,32 +37,37 @@ const Dashboard = () => {
         </Typography>
 
         <Grid container spacing={2}>
-          {/* Motion Detection */}
+          {}
           <Grid item xs={12} md={4}>
             <Paper 
               elevation={2} 
               sx={{ 
                 p: 2,
                 height: '100%',
-                background: (theme) => 
-                  theme.palette.mode === 'dark' 
-                    ? 'rgba(0, 0, 0, 0.2)' 
-                    : 'rgba(0, 0, 0, 0.02)',
-                borderRadius: 2
+                background: 'rgba(0, 0, 0, 0.02)',
+                borderRadius: 2,
+                '&.MuiPaper-root': {
+                  background: 'rgba(0, 0, 0, 0.02) !important'
+                }
               }}
             >
-              <Typography variant="h6" gutterBottom align="center">
+              <Typography 
+                variant="h6" 
+                gutterBottom 
+                align="center"
+                sx={{ color: (theme) => theme.palette.mode === 'dark' ? '#fff' : 'inherit' }}
+              >
                 Motion Detection
               </Typography>
               <MotionDetector
                 data={motionData.latestReading}
                 loading={motionData.loading}
-                isMotionDetected={motionData.latestReading?.value === true}
+                isMotionDetected={motionData.latestReading?.status === "Motion detected"}
               />
             </Paper>
           </Grid>
 
-          {/* Indoor Sensors */}
+          {}
           <Grid item xs={12} md={4}>
             <Paper 
               elevation={2} 
@@ -87,7 +88,7 @@ const Dashboard = () => {
                 <Grid item xs={12}>
                   <SensorCard
                     title="Inside Temperature"
-                    value={insideTemp.latestReading?.value}
+                    value={insideTemp.latestReading?.value?.toString().replace(/[°C]/g, '')}
                     unit="°C"
                     timestamp={insideTemp.latestReading?.timestamp}
                     loading={insideTemp.loading}
@@ -97,7 +98,7 @@ const Dashboard = () => {
                 <Grid item xs={12}>
                   <SensorCard
                     title="Inside Humidity"
-                    value={insideHumidity.latestReading?.value}
+                    value={insideHumidity.latestReading?.value?.toString().replace(/[%]/g, '')}
                     unit="%"
                     timestamp={insideHumidity.latestReading?.timestamp}
                     loading={insideHumidity.loading}
@@ -108,7 +109,7 @@ const Dashboard = () => {
             </Paper>
           </Grid>
 
-          {/* Outdoor Sensors */}
+          {}
           <Grid item xs={12} md={4}>
             <Paper 
               elevation={2} 
@@ -129,7 +130,7 @@ const Dashboard = () => {
                 <Grid item xs={12}>
                   <SensorCard
                     title="Outside Temperature"
-                    value={outsideTemp.latestReading?.value}
+                    value={outsideTemp.latestReading?.value?.toString().replace(/[°C]/g, '')}
                     unit="°C"
                     timestamp={outsideTemp.latestReading?.timestamp}
                     loading={outsideTemp.loading}
@@ -139,7 +140,7 @@ const Dashboard = () => {
                 <Grid item xs={12}>
                   <SensorCard
                     title="Outside Humidity"
-                    value={outsideHumidity.latestReading?.value}
+                    value={outsideHumidity.latestReading?.value?.toString().replace(/[%]/g, '')}
                     unit="%"
                     timestamp={outsideHumidity.latestReading?.timestamp}
                     loading={outsideHumidity.loading}

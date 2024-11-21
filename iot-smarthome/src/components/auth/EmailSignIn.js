@@ -9,6 +9,8 @@ import {
 } from '@mui/material';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../services/firebase';
+import { validators } from '../../utils/validation';
+import { SessionManager } from '../../utils/sessionManager';
 
 const EmailSignIn = ({ onToggleMode }) => {
   const [email, setEmail] = useState('');
@@ -17,10 +19,27 @@ const EmailSignIn = ({ onToggleMode }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    
+    const emailCheck = validators.email(email);
+    const passwordCheck = validators.password(password);
+
+    if (!emailCheck.isValid) {
+      setError(emailCheck.message);
+      return;
+    }
+
+    if (!passwordCheck.isValid) {
+      setError(passwordCheck.message);
+      return;
+    }
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      await SessionManager.initSession();
     } catch (error) {
       setError(error.message);
+      console.error('Sign in error:', error);
     }
   };
 

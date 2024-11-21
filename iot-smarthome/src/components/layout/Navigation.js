@@ -6,6 +6,7 @@ import TimelineIcon from '@mui/icons-material/Timeline';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import HomeIcon from '@mui/icons-material/Home';
 import { AuthContext } from '../../context/AuthContext';
 import { ColorModeContext } from '../../context/ThemeContext';
 import { useTheme } from '@mui/material/styles';
@@ -21,45 +22,63 @@ const Navigation = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-      <Button
-        startIcon={<DashboardIcon />}
-        onClick={() => navigate('/')}
-        color={isActive('/') ? 'primary' : 'inherit'}
-        variant={isActive('/') ? 'contained' : 'text'}
-      >
-        Dashboard
-      </Button>
-      <Button
-        startIcon={<TimelineIcon />}
-        onClick={() => navigate('/graphs')}
-        color={isActive('/graphs') ? 'primary' : 'inherit'}
-        variant={isActive('/graphs') ? 'contained' : 'text'}
-      >
-        Graphs
-      </Button>
-      <IconButton onClick={colorMode.toggleColorMode} color="inherit">
-        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-      </IconButton>
-      {user && (
-        <>
-          <Avatar
-            src={user.photoURL}
-            alt={user.displayName}
-            sx={{ width: 32, height: 32 }}
-          />
-          <Typography variant="body2" sx={{ mr: 2 }}>
-            {user.displayName}
-          </Typography>
-          <Button
-            startIcon={<LogoutIcon />}
-            onClick={() => auth.signOut()}
-            color="inherit"
-          >
-            Logout
-          </Button>
-        </>
-      )}
+    <Box sx={{ 
+      display: 'flex', 
+      gap: 2, 
+      alignItems: 'center',
+      width: '100%',
+      justifyContent: 'space-between'
+    }}>
+      <Box sx={{ display: 'flex', gap: 2 }}>
+        <Button
+          startIcon={<HomeIcon />}
+          onClick={() => navigate('/')}
+          color={isActive('/') ? 'primary' : 'inherit'}
+          variant={isActive('/') ? 'contained' : 'text'}
+        >
+          Home
+        </Button>
+        <Button
+          startIcon={<DashboardIcon />}
+          onClick={() => navigate('/dashboard')}
+          color={isActive('/dashboard') ? 'primary' : 'inherit'}
+          variant={isActive('/dashboard') ? 'contained' : 'text'}
+        >
+          Dashboard
+        </Button>
+        <Button
+          startIcon={<TimelineIcon />}
+          onClick={() => navigate('/graphs')}
+          color={isActive('/graphs') ? 'primary' : 'inherit'}
+          variant={isActive('/graphs') ? 'contained' : 'text'}
+        >
+          Graphs
+        </Button>
+      </Box>
+      <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+        <IconButton onClick={colorMode.toggleColorMode} color="inherit">
+          {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+        {user && (
+          <>
+            <Avatar
+              src={user.photoURL}
+              alt={user.displayName}
+              sx={{ width: 32, height: 32 }}
+            />
+            <Typography variant="body2" sx={{ mr: 2 }}>
+              {user.displayName}
+            </Typography>
+            <Button
+              startIcon={<LogoutIcon />}
+              onClick={() => auth.signOut()}
+              color="inherit"
+            >
+              Logout
+            </Button>
+          </>
+        )}
+      </Box>
     </Box>
   );
 };

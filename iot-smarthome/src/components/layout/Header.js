@@ -1,7 +1,6 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Box, useTheme } from '@mui/material';
+import { AppBar, Toolbar, useTheme } from '@mui/material';
 import Navigation from './Navigation';
-import HomeIcon from '@mui/icons-material/Home';
 
 const Header = () => {
   const theme = useTheme();
@@ -21,19 +20,6 @@ const Header = () => {
         justifyContent: 'space-between',
         padding: { xs: 1, sm: 2 },
       }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <HomeIcon sx={{ fontSize: 28 }} />
-          <Typography 
-            variant="h6" 
-            component="div"
-            sx={{ 
-              fontWeight: 600,
-              display: { xs: 'none', sm: 'block' }
-            }}
-          >
-            Smart Home Monitor
-          </Typography>
-        </Box>
         <Navigation />
       </Toolbar>
     </AppBar>

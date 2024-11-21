@@ -1,0 +1,97 @@
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+    padding: var(--spacing-xl);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .login-container::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    animation: rotate 20s linear infinite;
+  }
+  
+  .login-paper {
+    position: relative;
+    padding: var(--spacing-xl);
+    width: 100%;
+    max-width: 480px;
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(0);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  }
+  
+  .login-paper:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+  
+  .login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .login-logo {
+    font-size: 3rem;
+    color: #1a237e;
+    margin-bottom: 1rem;
+    animation: pulse 2s infinite;
+  }
+  
+  .login-tabs {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+  
+  .social-button {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all var(--transition-normal);
+  }
+  
+  .social-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .google-button {
+    background: linear-gradient(45deg, #db4437, #f44336);
+  }
+  
+  .facebook-button {
+    background: linear-gradient(45deg, #4267B2, #5B7BD5);
+  }
+  
+  .microsoft-button {
+    background: linear-gradient(45deg, #00a4ef, #0078d4);
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @media (max-width: 600px) {
+    .login-paper {
+      padding: 2rem;
+    }
+  }

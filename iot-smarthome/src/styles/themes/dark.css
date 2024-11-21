@@ -1,0 +1,16 @@
+[data-theme='dark'] {
+    --background-default: #121212;
+    --background-paper: #1e1e1e;
+    --background-elevated: #2d2d2d;
+    --text-primary: rgba(255, 255, 255, 0.87);
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --text-disabled: rgba(255, 255, 255, 0.38);
+    --divider: rgba(255, 255, 255, 0.12);
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 8px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 16px rgba(0,0,0,0.5);
+    --overlay-hover: rgba(255, 255, 255, 0.08);
+    --overlay-selected: rgba(255, 255, 255, 0.16);
+    --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+    --scrollbar-track: rgba(255, 255, 255, 0.05);
+  }

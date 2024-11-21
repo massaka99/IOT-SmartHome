@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { 
-  Container, Button, Typography, Paper, Box,
+  Button, Typography, Paper, Box,
   TextField, Alert, Tab, Tabs
 } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import EmailSignUp from '../components/auth/EmailSignUp';
 import EmailSignIn from '../components/auth/EmailSignIn';
+import { validators } from '../utils/validation';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -44,6 +45,12 @@ const Login = () => {
 
   const handlePhoneSignIn = async () => {
     try {
+      const phoneValidation = validators.phoneNumber(phoneNumber);
+      if (!phoneValidation.isValid) {
+        setError(phoneValidation.message);
+        return;
+      }
+
       setupRecaptcha();
       const confirmation = await signInWithPhoneNumber(
         auth, 
@@ -57,16 +64,41 @@ const Login = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ height: '100vh', display: 'flex', alignItems: 'center' }}>
-      <Paper elevation={4} sx={{ p: 4, width: '100%' }}>
-        <HomeIcon sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
-        <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
-          Smart Home Monitor
-        </Typography>
+    <div className="login-container">
+      <Paper className="login-paper" elevation={4}>
+        <div className="login-header">
+          <HomeIcon className="login-logo" />
+          <Typography variant="h4" gutterBottom sx={{ fontWeight: 600 }}>
+            Smart Home Monitor
+          </Typography>
+        </div>
 
-        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+        {error && (
+          <Alert 
+            severity="error" 
+            sx={{ 
+              mb: 3,
+              borderRadius: 2,
+              animation: 'fadeIn 0.3s ease-in'
+            }}
+          >
+            {error}
+          </Alert>
+        )}
 
-        <Tabs value={authMethod} onChange={(e, v) => setAuthMethod(v)} sx={{ mb: 3 }}>
+        <Tabs 
+          value={authMethod} 
+          onChange={(e, v) => setAuthMethod(v)} 
+          className="login-tabs"
+          variant="fullWidth"
+          sx={{
+            '& .MuiTab-root': {
+              minHeight: 48,
+              borderRadius: '8px',
+              fontWeight: 500
+            }
+          }}
+        >
           <Tab value="social" label="Social Login" />
           <Tab value="phone" label="Phone" />
           <Tab value="email" label="Email" />
@@ -75,6 +107,7 @@ const Login = () => {
         {authMethod === 'social' && (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Button
+              className="social-button google-button"
               variant="contained"
               startIcon={<GoogleIcon />}
               onClick={() => handleSocialSignIn(googleProvider)}
@@ -83,6 +116,7 @@ const Login = () => {
               Sign in with Google
             </Button>
             <Button
+              className="social-button facebook-button"
               variant="contained"
               startIcon={<FacebookIcon />}
               onClick={() => handleSocialSignIn(facebookProvider)}
@@ -91,6 +125,7 @@ const Login = () => {
               Sign in with Facebook
             </Button>
             <Button
+              className="social-button microsoft-button"
               variant="contained"
               startIcon={<MicrosoftIcon />}
               onClick={() => handleSocialSignIn(microsoftProvider)}
@@ -146,7 +181,7 @@ const Login = () => {
           )
         )}
       </Paper>
-    </Container>
+    </div>
   );
 };
 
