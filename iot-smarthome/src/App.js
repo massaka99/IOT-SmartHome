@@ -12,14 +12,9 @@ import { ThemeProviderWrapper } from './context/ThemeContext';
 import './styles/global.css';
 import './styles/themes/light.css';
 import './styles/themes/dark.css';
-import './styles/components/Dashboard.css';
 import './styles/components/Login.css';
-import './styles/components/Graphs.css';
-import './styles/components/SensorCard.css';
-import './styles/components/MotionDetector.css';
 import './styles/layouts/Layout.css';
 import Home from './pages/Home';
-import './styles/components/Home.css';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import { SessionManager } from './utils/sessionManager';
 
