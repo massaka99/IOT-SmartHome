@@ -1,0 +1,1 @@
+how to access azure vm: ssh -i "PATH-TO-PEM-FILE" songuku@52.164.218.228

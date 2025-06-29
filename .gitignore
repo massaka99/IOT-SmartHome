@@ -1,0 +1,24 @@
+Videos/IoT-ScreencastVideo.mp4
+Videos/IoT-PhoneVideo.mp4
+
+# Firebase Service Account Keys (sensitive credentials)
+backend/smartmonitoringsystem-8e77c-firebase-adminsdk-hu6uu-1331ff2ea7.json
+backend/*firebase-adminsdk*.json
+
+# AWS Keys
+backend/*.pem
+
+# Environment variables
+.env
+.env.local
+.env.production
+backend/.env
+frontend/.env
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
