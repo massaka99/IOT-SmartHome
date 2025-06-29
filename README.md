@@ -8,7 +8,7 @@ This project is a full-stack IoT Smart Home platform designed to monitor and vis
 - **Backend**: Node.js/Express (see `backend` folder)
 - **Hardware**: ESP32 microcontrollers with various sensors (see `ESP32 code` folder)
 - **Documentation**: See `iot_rapport.pdf` for a detailed technical report
-- **Architecture Diagram**: ![C4 Architecture](../C4.png)
+- **Architecture Diagram**: ![C4 Architecture](C4.png)
 
 ---
 
@@ -50,14 +50,14 @@ IOT-SmartHome/
 
 ## System Architecture
 
-See the [C4.png](../C4.png) image for a high-level overview of the system architecture, including:
+See the [C4.png](C4.png) image for a high-level overview of the system architecture, including:
 
 - ESP32 devices sending sensor data via WiFi
 - Backend API for data ingestion and storage
 - Firebase for authentication and real-time database
 - React frontend for visualization and user interaction
 
-For a detailed explanation of the architecture, design decisions, and implementation, refer to the [iot_rapport.pdf](../iot_rapport.pdf) report.
+For a detailed explanation of the architecture, design decisions, and implementation, refer to the [iot_rapport.pdf](iot_rapport.pdf) report.
 
 ---
 
@@ -107,36 +107,7 @@ For a detailed explanation of the architecture, design decisions, and implementa
 
 ---
 
-## Contributing
-
-Contributions are welcome! Please see the [iot_rapport.pdf](../iot_rapport.pdf) for the full design and development process. To contribute:
-
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/your-feature`)
-3. Commit your changes
-4. Push to your fork and open a pull request
-
----
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
----
-
-## Contact
-
-For questions or support, please refer to the [iot_rapport.pdf](../iot_rapport.pdf) or contact the project maintainers.
-
----
-
 ## References
 
-- [iot_rapport.pdf](../iot_rapport.pdf): Full technical documentation (Danish)
-- [C4.png](../C4.png): System architecture diagram
-- [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started)
-- [React documentation](https://reactjs.org/)
-
----
-
-_This README was generated based on the project structure and the full technical report. For the most accurate and detailed information, always refer to the project report and architecture diagram._
+- [iot_rapport.pdf](iot_rapport.pdf): Full technical documentation (Danish)
+- [C4.png](C4.png): System architecture diagram
